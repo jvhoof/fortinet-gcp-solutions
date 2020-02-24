@@ -89,6 +89,17 @@ variable "subnet-internal" {
   }
 }
 
+variable "subnetmask" {
+  type        = map
+  description = ""
+
+  default = {
+    "1" = "27"        # External
+    "2" = "27"        # Internal
+  }
+}
+
+
 variable "fgt_ipaddress_a" {
   type        = map
   description = ""

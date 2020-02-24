@@ -39,7 +39,7 @@ resource "google_compute_instance" "fgt" {
 
   metadata = {
     license : file("${var.FGT_BYOL_LICENSE_FILE}")
-    user-data : data.template_file.fgt_a_custom_data.rendered
+#    user-data : data.template_file.fgt_a_custom_data.rendered
   }
   network_interface {
     subnetwork    = google_compute_subnetwork.subnet-external.self_link
@@ -66,14 +66,12 @@ data "template_file" "fgt_a_custom_data" {
 
   vars = {
     fgt_vm_name = "${var.PREFIX}-fgt"
-    fgt_username = "${var.USERNAME}"
-    fgt_ssh_public_key = "${var.FGT_SSH_PUBLIC_KEY_FILE}"
-    fgt_external_ipaddr = "${var.fgt_ipaddress_a["1"]}"
-    fgt_external_mask = "${var.subnetmask["1"]}"
-    fgt_external_gw =  "${var.gateway_ipaddress["1"]}"
-    fgt_internal_ipaddr = "${var.fgt_ipaddress_a["2"]}"
-    fgt_internal_mask = "${var.subnetmask["2"]}"
-    fgt_internal_gw =  "${var.gateway_ipaddress["2"]}"
-    vpc_internal =  "${var.vpc-internal}"
+    fgt_external_ipaddr = var.fgt_ipaddress_a["1"]
+    fgt_external_mask = var.subnetmask["1"]
+    fgt_external_gw =  var.gateway_ipaddress["1"]
+    fgt_internal_ipaddr = var.fgt_ipaddress_a["2"]
+    fgt_internal_mask = var.subnetmask["2"]
+    fgt_internal_gw =  var.gateway_ipaddress["2"]
+    vpc_internal =  var.vpc-internal
   }
 }

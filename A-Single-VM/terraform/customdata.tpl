@@ -17,11 +17,6 @@ config router static
         set gateway ${fgt_external_gw}
         set device port1
     next
-    edit 2
-        set dst ${vpc_interal}
-        set gateway ${fgt_internal_gw}
-        set device port2
-    next
 end
 config system probe-response
     set http-probe-value OK
@@ -32,19 +27,12 @@ config system interface
         set mode static
         set ip ${fgt_external_ipaddr}/${fgt_external_mask}
         set description external
-        set allowaccess probe-response
+        set allowaccess https ssh ping
     next
     edit port2
         set mode static
         set ip ${fgt_internal_ipaddr}/${fgt_internal_mask}
         set description internal
-        set allowaccess probe-response
+        set allowaccess https ssh ping
     next
 end
-%{ if fgt_ssh_public_key != "" }
-config system admin
-    edit "${fgt_username}"
-        set ssh-public-key1 "${trimspace(file(fgt_ssh_public_key))}"
-    next
-end
-%{ endif }
